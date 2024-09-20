@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private var seconds: Int = 0
     private var running: Boolean = false
-
+    private var wasRunning: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         savedInstanceState?.let {
             seconds = it.getInt(state.SECONDS.name)
             running = it.getBoolean(state.RUNNING.name)
+            wasRunning = it.getBoolean(state.WAS_RUNNING.name)
         }
 
         runTimer()
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(state.SECONDS.name, seconds)
         outState.putBoolean(state.RUNNING.name, running)
+        outState.putBoolean(state.WAS_RUNNING.name, running)
         super.onSaveInstanceState(outState)
     }
 
@@ -83,13 +85,20 @@ class MainActivity : AppCompatActivity() {
         Log.e(this.javaClass.name, ">>> onStart")
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.e(this.javaClass.name, ">>> onResume")
+    }
+
     override fun onPause() {
         super.onPause()
+        running = wasRunning
         Log.e(this.javaClass.name, ">>> onPause")
     }
 
     override fun onStop() {
         super.onStop()
+        running = false
         Log.e(this.javaClass.name, ">>> onStop")
     }
 
@@ -97,8 +106,14 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Log.e(this.javaClass.name, ">>> onDestroy")
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        running = true
+        Log.e(this.javaClass.name, ">>> onRestart")
+    }
 }
 
 enum class state{
-    RUNNING, SECONDS
+    RUNNING, SECONDS, WAS_RUNNING
 }
