@@ -51,7 +51,8 @@ class MainActivity : AppCompatActivity() {
         handler.post(object : Runnable {
             override fun run() {
                 val minutes = (seconds % 3600) / 60
-                val time = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+                val time = String.format(Locale.getDefault(),
+                    "%02d:%02d", minutes, seconds % 60)
                 binding.timeView.text = time
 
                 if (running) seconds++
@@ -92,13 +93,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        running = wasRunning
+//        running = wasRunning
         Log.e(this.javaClass.name, ">>> onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        running = false
+ //       running = false
         Log.e(this.javaClass.name, ">>> onStop")
     }
 
@@ -109,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        running = true
+//        running = true
         Log.e(this.javaClass.name, ">>> onRestart")
     }
 }
