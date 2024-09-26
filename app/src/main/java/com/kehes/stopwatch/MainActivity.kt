@@ -43,10 +43,10 @@ class MainActivity : AppCompatActivity() {
             wasRunning = it.getBoolean(state.WAS_RUNNING.name)
         }
 
-        runTimer()
+        runStopwatch()
     }
 
-    private fun runTimer() {
+    private fun runStopwatch() {
         val handler = Handler(Looper.getMainLooper())
         handler.post(object : Runnable {
             override fun run() {
